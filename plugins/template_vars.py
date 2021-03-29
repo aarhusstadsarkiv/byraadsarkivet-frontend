@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-
+from typing import Dict, Any
 from datasette import hookimpl
 
 
 @hookimpl
-def extra_template_vars(request):
+def extra_template_vars(request) -> Dict[str, Any]:
     # Custom template variables
-    vars = dict()
+    vars: Dict[str, Any] = {}
 
     # the latest year of the db. Currently 2020
     vars["to_year"] = 2020
