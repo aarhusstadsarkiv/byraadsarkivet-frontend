@@ -1,0 +1,104 @@
+{# INCLUDE IN row-db-cases and table-db-cases #}
+
+{# REQUIRES:
+    "case" - dict-like object from display_rows[0]
+    "vars" - dict with 'regex' and more
+#}
+
+<div id="content" class="case-content">
+    {% set metadata = case.metadata|loadjson %}
+
+    {% if metadata.case_id or case.date or case.last_deliberation_date %}
+        {% if metadata.case_id %}
+            <div class="case-id padding-bottom_s">SagsID: {{ metadata.case_id }}</div>
+        {% endif %}
+
+        {% if case.date %}
+            <div class="case-date padding-bottom_s"><span>Sagen oprettet: {{ case.date }}</span></div>
+        {% endif %}
+
+        {% if case.last_deliberation_date %}
+            <div class="case-last-deliberation"><span>Sagen sidst behandlet: {{ case.last_deliberation_date }}</span></div>
+        {% endif %}
+        <hr>
+    {% endif %}
+
+    {% if case.subtitle and not case.title %}
+        <div class="case-subtitle padding-top_m"><strong>{{ case.subtitle }}</strong></div>
+    {% endif %}
+
+    {% if case.resume %}
+        <h2 class="padding-top_m">Resume</h2>
+        <div class="case-resume padding-top_m">{{ case.resume }}</div>
+    {% endif %}
+
+    {% if case.suggestion %}
+        <h2 class="padding-top_m">Indstilling</h2>
+        <div class="case-suggestion">{{ case.suggestion }}</div>
+    {% endif %}
+
+    {% if case.presentation %}
+        <h2 class="padding-top_m">Sagsfremstilling</h2>
+        <div class="case-presentation">{{ case.presentation }}</div>
+    {% endif %}
+
+    {% if case.notes %}
+        <h2 class="padding-top_m">Bemærkninger</h2>
+        <div class="case-notes">{{ case.notes }}</div>
+    {% endif %}
+
+    {% if case.decisions %}
+        <div class="padding-top_l">
+            <h2>Sagens forløb</h2>
+            <hr>
+            {% for decision in case.decisions|loadjson %}
+                <div class="case-decision margin-left_s padding-bottom_m{% if loop.index > 1 %} padding-top_s{% endif %}">
+                    <h3 class="case-decision-header margin-bottom_xs">
+                        {% if decision.meeting_id %}
+                            <a href="/db/meetings/{{decision.meeting_id}}">
+                                <span>{{ decision.get("date") }} {{ decision.get("fora_name") }}</span>
+                            </a>
+                        {% else %}
+                            <span>{{ decision.get("date") }} {{ decision.get("fora_name") }}</span>
+                        {% endif %}
+                    </h3>
+                    {% if decision.get("title") %}
+                        <div class="case-decision-title padding-bottom_s">{{ decision.title }}</div>
+                    {% endif %}
+
+                    {% if decision.get("text") %}
+                        <div class="case-decision-text padding-bottom_s">{{ decision.text }}</div>
+                    {% endif %}
+
+                    {% if decision.get("conclusion") %}
+                        <div class="case-decision-conclusion padding-top_m"><strong>Konklusion</strong><br>{{ decision.conclusion }}</div>
+                    {% endif %}
+                    
+                    {% if decision.get("signature") %}
+                        <div class="case-decision-signature padding-top_m"><strong>Signatur</strong><br>{{ decision.signature }}</div>
+                    {% endif %}
+
+                    {% if decision.get("files") %}
+                        <div class="case-decision-files padding-top_m">
+                            <h4>Bilag</h4>
+                            {% if decision.get("attachment_intro") %}
+                                <div class="padding-bottom_s">{{ decision.attachment_intro }}:</div>
+                            {% endif %}
+                            {% for f in decision.files|loadjson %}
+                                <div class="case-decision-file padding-bottom_s"><a href="{{ f.href }}">{{ f.filename|capitalize }}</a></div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {# 'CASE' DOES NOT BEHAVE EXACTLY LIKE A DICT. NULL is not like None #}
+    {% if case.files and (case.files != 'null') %}
+        <h2 class="padding-top_l">bilag</h2>
+        {% for f in case.files|loadjson %}
+            <div class="case-file"><a href="{{ f.href }}">{{ f.filename|capitalize }}</a></div>
+        {% endfor %}
+    {% endif %}
+</div>

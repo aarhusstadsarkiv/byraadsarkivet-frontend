@@ -1,0 +1,39 @@
+{# a single case on its own url #}
+{% extends "base.html" %}
+
+{# THIS IS NOT A DICT #}
+{% set page = "resourcepage" %}
+{% set case = display_rows[0] %}
+{% set vars = {
+    "search": ""
+} %}
+
+{% block title %}Sag | {{case.title}} {% endblock %}
+
+{% block description %}{{case.title}} {% endblock %}
+
+{% block content %}
+<div class="hero-container">
+    <div class="hero hero--image-right">
+        <div class="container">
+            <div class="hero__content">
+                {% if case.title %}
+                    <h1 class="title underlined" id="content-headline">{{case.title}}</h1>
+                {% elif case.subtitle %}
+                    <h1 class="title underlined" id="content-headline">{{case.subtitle}}</h1>
+                {% else %}
+                    <h1 id="content-headline">Sag uden titel</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="content">
+        <div class="static-page" role="article">
+            {% include "components/case.html" %}
+        </div>
+    </div> 
+</div>
+{% endblock content %}

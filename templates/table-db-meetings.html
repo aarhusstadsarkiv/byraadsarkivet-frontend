@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% set vars = {"year": 2020, "fora_id": "", "fora_name": ""} %}
+
+{% for column, lookup, value in filters.selections() %}
+    {% if column == "year" %}
+        {% if vars.update({"year": value}) %}{% endif %}
+    {% elif column == "fora_id" %}
+      {% if vars.update({"fora_id": value}) %}{% endif %}
+      {% if value in current_fora %}
+        {% if vars.update({"fora_name": current_fora[value].get("label") }) %}{% endif %}
+      {% elif value in previous_fora %}
+        {% if vars.update({"fora_name": previous_fora[value].get("label") }) %}{% endif %}
+      {% endif %}
+    {% endif %}
+{% endfor %}
+  
+{% block title %}{{vars.fora_name}}, mødereferater fra {{vars.year}}{% endblock %}
+
+{% block description %}Liste af mødedatoer og referater fra {{vars.fora_name}} i år {{vars.year}}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <nav aria-label="breadcrumb" aria-label="Brødkrummesti">
+        <ol class="breadcrumb mb-0 bg-light">
+          <li class="breadcrumb-item"><a href="/">Hjem</a></li>
+          {% if vars.fora_id %}
+            {% if vars.fora_id in ["13", "20"] %}
+              <li class="breadcrumb-item active">{{vars.fora_name}}</li>
+            {#
+            {% elif vars.fora_id == "20" %}
+              <li class="breadcrumb-item active">Magistraten</li>
+            #}
+            {% else %}
+              <li class="breadcrumb-item"><a href="/fora">Udvalg</a></li>
+              <li class="breadcrumb-item active">{{vars.fora_name}}</li>
+            {% endif %}
+          {% else %}
+            <li class="breadcrumb-item active">Referater</li>
+          {% endif %}
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="hero-container">
+    <div class="hero hero--image-right">
+      <div class="container">
+        <div class="hero__content">
+          {% if vars.fora_id and vars.fora_name %}
+            <h1 class="title underlined" id="content-headline">{{vars.fora_name}}</h1>
+          {% else %}
+            <h1 class="title underlined" id="content-headline">Mødereferater</h1>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="content">
+      <div class="list">
+        <form id="meetings-form" class="form-row padding_m" action="/db/meetings" method="GET" role="search">
+          <input type="hidden" name="fora_id" value="{{vars.fora_id}}">
+          <input type="hidden" name="_size" value="150">
+          <div class="form-group col-md-2 mr-3">
+            <label for="inputyear" class="mr-2">Årstal</label>
+            <input id="inputyear" class="form-control" type="text" inputmode="numeric" pattern="(19[9][789]|20[012]\d)" name="year" value="{{vars.year}}">
+          </div>
+          <div class="form-group col-md-3 mr-3">
+            <label for="inputsortdate" class="mr-2">Sortér på dato</label>
+            <select id="inputsortdate" class="form-control" name="sortorder">
+              <option value="date" data-name="_sort_desc" {% if not sort %}selected{% endif %}>Nyeste først</option>
+              <option value="date" data-name="_sort" {% if sort %}selected{% endif %}>Ældste først</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4 align-end">
+            <button id="update-view" type="submit" class="btn btn-primary">Opdatér Visning</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="list">
+        <div class="list-group-flush js-mark-results" id="list-tab">
+          {% for row in display_rows %}
+            <div class="list-group-item search-result" tabindex="0" aria-expanded="false">
+              <a href="/db/meetings/{{row.id}}" title="Link til {{ row.title}} den {{ row.date|localize }}" class="search-result-link row no-gutters {% if not row.public %}closed{% endif %}" tabindex="-1">
+                <div class="search-result-icon-wrapper">
+                  <div class="date">{{ row.date[-2:] }}</div>
+                  <div class="month">{{ months.get(row.date[-5:-3]) }}</div>
+                </div>
+                <div class="search-result-content-wrapper is-centered">
+                  <h2 class="no-transform link">{{ row.date|localize }}<br/>{{ row.title }}</h2>
+                </div>
+                <div class="search-result-more" aria-hidden="true" focusable="false">
+                  <i class="fa fa-arrow-right ml-4"></i>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

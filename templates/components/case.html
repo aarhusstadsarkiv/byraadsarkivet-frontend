@@ -1,0 +1,102 @@
+{# requires a case-key #}
+
+<div class="case-content">
+    {% set metadata = case.metadata|loadjson %}
+
+    {% if (page == "resourcepage") and metadata.case_id and (case.type == "record") %}
+        <div class="case-id padding-bottom_s">SagsID: {{ metadata.case_id }}</div>
+        {% if case.date %}
+            <div class="case-date padding-bottom_s"><span>Sagen oprettet: {{ case.date }}</span></div>
+        {% endif %}
+        {% if case.last_deliberation_date %}
+            <div class="case-last-deliberation"><span>Sagen sidst behandlet: {{ case.last_deliberation_date }}</span></div>
+        {% endif %}
+        <hr>
+    {% endif %} 
+
+    {% if case.subtitle and not case.title %}
+        <div class="case-subtitle padding-top_m"><b>{{ case.subtitle|highlight(vars.search) }}</b></div>
+    {% endif %}
+
+    {% if case.resume %}
+        {% if case.subtitle and not case.title %}
+            <h2 class="padding-top_m">Resume</h2>
+        {% endif %}
+        <div class="case-resume padding-top_m">{{ case.resume|highlight(vars.search) }}</div>
+    {% endif %}
+
+    {% if case.suggestion %}
+        <h2 class="padding-top_m">Indstilling</h3>
+        <div class="case-suggestion">{{ case.suggestion|highlight(vars.search) }}</div>
+    {% endif %}
+
+    {% if case.presentation %}
+        <h2 class="padding-top_m">Sagsfremstilling</h2>
+        <div class="case-presentation">{{ case.presentation|highlight(vars.search) }}</div>
+    {% endif %}
+
+    {% if case.notes and not (case.resume or case.suggestion or case.presentation) %}
+        <h2 class="padding-top_m">Bemærkninger</h2>
+        <div class="case-notes">{{ case.notes|highlight(vars.search) }}</div>
+    {% endif %}
+
+
+    {% if case.decisions %}
+        <div class="padding-top_l">
+            <h2 class="">Sagens forløb</h2>
+            <hr>
+            {% for decision in case.decisions|loadjson %}
+                <div class="case-decision padding-bottom_m{% if loop.index > 1 %} padding-top_s{% endif %}">
+                    <h3 class="case-decision-header margin-bottom_xs no-transform">
+                        {% if decision.meeting_id %}
+                            <a class="underline" href="/db/meetings/{{decision.meeting_id}}#{{case.id}}">{{ decision.get("date")|localize }} {{ decision.get("fora_name") }}</a>
+                        {% else %}
+                            <span>{{ decision.date|localize }}</span>
+                            {% if decision.fora_name %}
+                                <span> {{ decision.fora_name }}</span>
+                            {% elif case.fora %}
+                                {% set fora_list = case.fora|loadjson %}
+                                <span> {{ all_fora.get(fora_list[0]) }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </h3>
+                    {% if decision.title %}
+                        <div class="case-decision-title padding-bottom_s">{{ decision.title|highlight(vars.search) }}</div>
+                    {% endif %}
+
+                    {% if decision.text %}
+                        <div class="case-decision-text padding-bottom_s">{{ decision.text|highlight(vars.search) }}</div>
+                    {% endif %}
+
+                    {% if decision.conclusion %}
+                        <div class="case-decision-conclusion padding-top_m"><b>Konklusion</b><br>{{ decision.conclusion|highlight(vars.search) }}</div>
+                    {% endif %}
+                    
+                    {% if decision.signature %}
+                        <div class="case-decision-signature padding-top_m"><b>Signatur</b><br>{{ decision.signature }}</div>
+                    {% endif %}
+                    
+                    {% if decision.get("files") %}
+                        <div class="case-decision-files padding-top_m">
+                            <div><b>Bilag</b></div>
+                            {% if decision.get("attachment_intro") %}
+                                <div class="padding-bottom_s">{{ decision.attachment_intro }}:</div>
+                            {% endif %}
+                            {% for f in decision.files %}
+                                <div class="case-decision-file padding-bottom_s"><a href="{{ f.href }}" target="_blank">{{ f.filename }}</a></div>                                                                
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if case.files and (case.files != "null") %} {# and  and (case.files|truthy) #}
+        <h2 class="padding-top_l">bilag</h2>
+        <hr>
+        {% for f in case.files|loadjson %}
+            <div class="case-decision-file"><a class="underline" href="{{ f.href }}" target="_blank">{{ f.filename }}</a></div>
+        {% endfor %}
+    {% endif %}
+</div>

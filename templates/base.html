@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Aarhus Byråd, Aarhus Stadsarkiv, Aarhus Kommune">
+	<meta name="description" content="{% block description %}{% endblock %}">
+	<link rel="shortcut icon" type="image/x-icon" href="/static/aar.ico">
+	<link rel="stylesheet" type="text/css" href="/static/main.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/theme.css">
+	<link rel="stylesheet" type="text/css" href="/static/cookieconsent.css" />
+	<script src="/static/cookieconsent.min.js"></script>
+	<script src="/static/cookiecontrol.js"></script>
+	{% block extra_head %}{% endblock extra_head %}
+	<meta name="google-site-verification" content="EssfXUTJSp5lLGdqw3RI9KJbDNLmyFn147Lbon-yyEs" />
+	<meta name="msvalidate.01" content="67549D31907D63FD6F52C4916844E8A2" />
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+	<a class="skip-link" href="#content">Gå til indhold</a>
+	<nav id="navigation" class="navbar fixed-top navbar-expand-lg navbar-light" aria-label="Byrådsarkivets hovedmenu">
+		<div class="container">
+			<a href="/" title="Forside | Aarhus Byrådsarkiv" rel="home" class="navbar-brand">
+				<img src="/static/icon.svg" alt="Gå til forsiden">
+				<span>&nbsp;&nbsp;Testversion</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" title="Vis hovedmenuen" aria-label="Vis hovedmenuen">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<div id="block-primaernavigation">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a href="/db/meetings?fora_id=13&year={{to_year}}&_sort_desc=date" class="nav-link" title="Oplist Byrådets seneste møder">Byrådet</a>
+						</li>
+						<li class="nav-item">
+							<a href="/db/meetings?fora_id=20&year={{to_year}}&_sort_desc=date" class="nav-link" title="Oplist Magistratens seneste møder">Magistraten</a>
+						</li>
+						<li class="nav-item">
+							<a href="/fora" class="nav-link" title="Oplist samtlige udvalg i Byrådsarkivet">Udvalg</a>
+						</li>
+					</ul>
+				</div>
+				<div id="block-sekundaernavigation" class="navbar-collapse navbar--secondary justify-content-end">
+					<div class="navigation--inner--secondary">
+						<ul class="navbar-nav is-secondary-navigation mr-auto">
+							{% if not databases %} {# 'databases'-contextkey from datasette only available on homepage/index #}
+								<li class="nav-item--secondary-navigation">
+									<a id="search-button" href="/" class="btn btn-primary" title="Gå til søgesiden">
+										<i class="fa fa-search margin-left_xs" aria-hidden="true"></i>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a id="search-link-text" href="/" class="nav-link">Gå til søgesiden</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	
+	<main id="main" class="page-wrapper" role="main">
+		{% block content %}{% endblock content %}
+	</main>
+
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Byrådssekretariatet</h2>
+					<p>Rådhuset<br>
+						Rådhuspladsen 2<br>
+						8000 Aarhus C<br>
+					</p>
+					<p><a href="https://www.aarhus.dk" title="Gå til Aarhus Kommunes hjemmeside"><img src="/static/icon-white.svg" alt="Link til Aarhus Kommunes hjemmeside"></a></p>
+				</div>
+				<div class="col-md-4">
+					<h2>Aarhus stadsarkiv</h2>
+					<p>Dokk1, niveau 2.2<br>
+						Hack Kampmanns Plads 2<br>
+						8000 Aarhus C<br>
+					</p>
+					<p><a href="https://www.aarhusstadsarkiv.dk" title="Gå til Aarhus Stadsarkivs hjemmeside"><img width="130" src="/static/as_logo_white.png" alt="Link til Aarhus Stadsarkivs hjemmeside"></a></p>
+				</div>
+				<div class="col-md-4">
+					<h2>Om Byrådsarkivet</h2>
+					<div class="padding-bottom_xs"><a href="/about">Om Byrådsarkivet</a></div>
+					<div class="padding-bottom_xs"><a href="/politics">Den politiske proces</a></div>
+					<div><a href="https://aarhuswiki.dk/wiki/Politik_i_Aarhus">Byrådets historie</a>&nbsp;<i class="fas fa-external-link-alt"></i></div>
+					<div><a href="https://www.aarhus.dk">Aarhus Kommunes hjemmeside</a>&nbsp;<i class="fas fa-external-link-alt"></i></div>
+					<div class="padding-top_m"><a href="mailto:byraadsservice@ba.aarhus.dk?subject=Byrådsarkivet">Kontakt os</a></div>
+				</div>
+			</div>
+		</div>
+		<div class="container margin-top_m">
+			<div class="row no-gutters">
+				<div class="col-md-12 permalinks">
+					<a href="https://www.was.digst.dk/byraadsarkivet-aarhus-dk" title="Tilgængelighedserklæring for sitet">Webtilgængelighedserklæring</a>
+					<a id="revokebutton" href="#" title="Klik for at ændre dit samtykke til cookies">Valg af cookies</a>
+					<a href="/cookies" title="Læs om Byrådsarkivets cookiepolitik">Cookiepolitik</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	{# UDKOMMENTERET
+  	<!-- Modal -->
+	<div class="modal fade" id="ie-alert" tabindex="-1" role="dialog" aria-labelledby="ie-alert" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h2 class="modal-title" id="exampleModalLabel">Du bruger en browser, som desværre ikke understøttes</h2>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+					<p>Microsoft anbefaler, at man af funktionalitets- og sikkerhedshensyn ikke længere benytter Internet Explorer. Denne side understøtter heller ikke fuldt ud denne browser.</p>
+					<p>Åbn gerne hjemmesiden i en anden browser (Microsoft Edge, Google Chrome, Firefox eller lignende). Hvis du ikke har andre browsere installeret, kan de downloades og installeres her:</p>
+					<ul>
+						<li><a href="https://www.microsoft.com/en-us/edge">Hent Microsoft Edge</a></li>
+						<li><a href="https://www.mozilla.org/en-US/firefox/new/">Hent Firefox</a></li>
+						<li><a href="https://www.google.com/chrome/">Hent Google Chrome</a></li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		if ( window.navigator.userAgent.match(/(MSIE|Trident)/) ) {
+			console.log("Using IE");
+			if (!document.cookie.split(';').some(function(item) {
+				return item.indexOf('ie-detected=1') >= 0;
+			})) {
+				console.log("Cookie not found. Setting cookie.");
+				document.cookie = "ie-detected=1; path=/; samesite=strict; max-age=604800";
+				document.getElementById('#ie-alert').style.display = 'block';
+			}
+		}
+	</script>
+	#}
+	<script src="/static/jquery_3.4.1.min.js" defer></script>
+	<script src="/static/bootstrap-4.4.1.min.js" defer></script>
+	<script src="/static/app.js" defer></script>
+</body>
+</html>

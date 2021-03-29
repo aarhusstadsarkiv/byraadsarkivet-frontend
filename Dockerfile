@@ -1,0 +1,39 @@
+###################
+# builder
+###################
+FROM python:3.8-alpine as builder
+
+# This one installs and compiles Datasette + its dependencies
+RUN apk add --no-cache gcc python3-dev musl-dev alpine-sdk
+
+# RUN pip install uvloop
+RUN pip install datasette==0.56
+
+# We clean up a lot of space by deleting rogue .c files etc:
+RUN find /usr/local/lib/python3.8 -name '*.c' -delete
+RUN find /usr/local/lib/python3.8 -name '*.pxd' -delete
+RUN find /usr/local/lib/python3.8 -name '*.pyd' -delete
+# Cleaning up __pycache__ gains more space
+RUN find /usr/local/lib/python3.8 -name '__pycache__' | xargs rm -r
+
+###############
+# Final image #
+###############
+FROM python:3.8-alpine
+
+# This one builds the final container, copying from the previous steps
+COPY --from=builder /usr/local/lib/python3.8 /usr/local/lib/python3.8
+COPY --from=builder /usr/local/bin/datasette /usr/local/bin/datasette
+
+# copy static files
+ADD /templates templates/
+ADD /plugins plugins/
+ADD /static static/
+ADD metadata.json metadata.json
+# ADD settings.json settings.json
+ADD db.db db.db
+
+EXPOSE 80
+# CMD ["datasette", "-i", "db.db", "--host", "0.0.0.0", "--port", "80", "--cors", "--plugins-dir", "plugins/", "--template-dir", "templates/", "--static", "static:static/", "--metadata", "metadata.json", "--config", "allow_facet:off", "--config", "cache_size_kb:1500", "--config", "num_sql_threads:10", "--config", "suggest_facets:off", "--config", "default_page_size:25", "--config", "allow_csv_stream:off", "--config", "allow_download:off", "--config", "allow_sql:off", "--config", "sql_time_limit_ms:3500"]
+CMD ["datasette", "-i", "db.db", "--host", "0.0.0.0", "--port", "80", "--cors", "--plugins-dir", "plugins/", "--template-dir", "templates/", "--static", "static:static/", "--metadata", "metadata.json", "--setting", "allow_facet", "off", "--setting", "cache_size_kb", "1500", "--setting", "num_sql_threads", "10", "--setting", "suggest_facets", "off", "--setting", "default_page_size", "25", "--setting", "allow_csv_stream", "off", "--setting", "allow_download", "off", "--setting", "sql_time_limit_ms", "3500"]
+# "--setting", "allow_sql", "off", 

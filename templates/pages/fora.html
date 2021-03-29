@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Liste over nuværende og tidligere udvalg | Aarhus byrådsarkiv{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <nav aria-label="breadcrumb mb-0 bg-light" aria-label="Brødkrummesti">
+        <ol class="breadcrumb mb-0 bg-light">
+          <li class="breadcrumb-item"><a href="/">Hjem</a></li>
+          <li class="breadcrumb-item active">Udvalg</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="hero-container">
+    <div class="hero hero--image-right">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="title  underlined" id="content-headline">Udvalg</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div id="content" class="static-page" role="article">
+          <h2>Aktuelle udvalg</h2>
+        {% for k, v in current_fora.items() %}
+          <p><a href="/db/meetings?year={{v.get('to')}}&_sort_desc=date&fora_id={{k}}">{{v.get("label")}}</a></p>
+        {% endfor %}
+
+        <h2 class="padding-top_l">Tidligere udvalg</h2>
+        {% for k, v in previous_fora.items() %}
+          <p><a href="/db/meetings?year={{v.get('to')}}&_sort_desc=date&fora_id={{k}}">{{v.get("label")}}</a></p>
+        {% endfor %}
+      </div>
+  </div>
+{% endblock content %}

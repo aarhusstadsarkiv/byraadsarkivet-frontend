@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% set page = "searchpage" %}
+
+{# Datasettes context["search"] is not set, when using title_only, so use vars.search #}
+{% set vars = {
+    "fora": "",
+    "from": "1997",
+    "to": "2020",
+    "search": "",
+    "search_title": "",
+    "sort": sort,
+    "sort_desc": sort_desc
+} %}
+
+{% for column, lookup, value in filters.selections() %}
+    {% if column == "year" and lookup == "gte" %}
+        {% if vars.update({"from": value}) %}{% endif %}
+    {% elif column == "year" and lookup == "lte" %}
+        {% if vars.update({"to": value}) %}{% endif %}
+    {% elif column == "fora" %}
+        {% if vars.update({"fora": value}) %}{% endif %}
+    {% elif column == "sort" %}
+        {% if vars.update({"sort": value}) %}{% endif %}
+    {% elif column == "sort_desc" %}
+        {% if vars.update({"sort_desc": value}) %}{% endif %}
+    {% endif %}
+{% endfor %}
+
+{% for k, v in query.get("params", {}).items() %}
+    {% if k == "search" %}
+        {% if vars.update({"search": v}) %}{% endif %}
+    {% elif k == "search_0" %}
+        {% if vars.update({"search": v}) %}{% endif %}
+        {% if vars.update({"search_title": v}) %}{% endif %}
+    {% endif %}
+{% endfor %}
+
+
+{% block title %}Sager - søgeresultat{% endblock title %}
+
+{% block description %}Søgeresultat med sager{% endblock description %}
+
+{% block body_class %}case-results{% endblock body_class %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 bg-light" aria-label="Brødkrummesti">
+                <li class="breadcrumb-item"><a href="/">Hjem</a></li>
+                <li class="breadcrumb-item active">Søgeresultater</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="hero-container">
+    <div class="hero hero--image-right">
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="title underlined" id="content-headline">Søgeresultat</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="search-box" role="search">
+        <form id="search-form">
+            <div class="form-row mb-4">
+                <div class="form-group col-md-10">
+                    <input class="form-control" id="_search" aria-label="Søg" name="_search" type="search" placeholder="Skriv f.eks. Gellerupplanen eller letbanen" value="{{ vars.search }}">
+                </div>
+                <div class="form-group col-md-2 mb-0 checkbox-slider">
+                    <div class="slider-title" aria-hidden>Søg kun i titel</div>
+                    <div class="form-group mb-0">
+                        <label class="ie-switch" for="switch-checkbox" aria-label="Søg kun i sagstitler">
+                            <input class="sr-only" type="checkbox" id="switch-checkbox" />
+                            <div class="slider"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-4">
+                <div class="form-group col-md-5">
+                    <label for="type">Mødefora</label>
+                    <select id="type" aria-label="Vælg mødefora" name="fora__contains" class="form-control">
+                        <option value="" {% if not vars.fora %}selected{% endif %}>Alle</option>
+                        <optgroup label="Aktuelle udvalg">
+                            {% for k, v in current_fora.items() %}
+                                <option value="{{k}}" {% if vars.fora == k %}selected{% endif %}>{{v.get("label")}}</option>
+                            {% endfor %}
+                        </optgroup>
+                        <optgroup label="Historiske udvalg">
+                            {% for k, v in previous_fora.items() %}
+                                <option value="{{k}}">{{v.get("label")}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="year_from">Årstal</label>
+                    <!-- <input id="year_from" aria-label="Fra årstal" name="year__gte" class="form-control" type="number" min="{{year_from}}" max="{{year_to}}" step="1" value="{{ vars.from }}"> -->
+                    <input id="year_from" aria-label="Fra årstal" name="year__gte" class="form-control" type="text" inputmode="numeric" pattern="(19[9][789]|20[012]\d)" value="{{ vars.from }}">
+                </div>
+                <div class="form-group col-md-1">
+                    <div class="form-info">til</div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="year_to">&nbsp;</label>
+                    <!-- <input id="year_to" aria-label="Til årstal" name="year__lte" class="form-control" type="number" min="{{year_from}}" max="{{year_to}}" step="1" value="{{ vars.to }}"> -->
+                    <input id="year_to" aria-label="til årstal" name="year__lte" class="form-control" type="text" inputmode="numeric" pattern="(19[9][789]|20[012]\d)" value="{{ vars.to }}">
+
+                </div>
+            </div>
+            <div class="form-row mb-4">
+                <div class="form-group mx-auto">
+                    <button type="submit" class="btn btn-lg btn-primary btn-submit">Søg<i class="fa fa-search ml-4"></i></button>
+                </div>
+            </div>
+            <input type="hidden" name="_sort_desc" value="last_deliberation_date">
+            <!-- <input type="hidden" name="_searchmode" value="raw"> -->
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div id="content">
+        {% if vars.search %}<input type="hidden" id="search_string" value="{{vars.search}}"/>{% endif %}
+        {% if display_rows %}
+            <div class="list">
+                <form id="cases-form" class="form-row padding_m" action="/db/cases" method="GET" role="search">
+                    {% if vars.fora %}<input type="hidden" name="fora" value="{{vars.fora}}">{% endif %}
+                    {% if vars.from %}<input type="hidden" name="year__gte" value="{{vars.from}}">{% endif %}
+                    {% if vars.to %}<input type="hidden" name="year__lte" value="{{vars.to}}">{% endif %}
+                    {% if vars.search_title %}
+                        <input type="hidden" name="_search_title" value="{{vars.search_title}}">
+                    {% elif vars.search %}
+                        <input type="hidden" name="_search" value="{{vars.search}}">
+                    {% endif %}
+
+                    <div class="form-group col-md-3 mr-3">
+                    <label for="inputsortdate" class="mr-2">Sortér på dato</label>
+                    <select id="inputsortdate" class="form-control" name="sortorder">
+                        <option value="date" data-name="_sort_desc" {% if not sort %}selected{% endif %}>Nyeste først</option>
+                        <option value="date" data-name="_sort" {% if sort %}selected{% endif %}>Ældste først</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-md-4 align-end">
+                    <button id="update-view" type="submit" class="btn btn-primary">Opdatér Visning</button>
+                    </div>
+                </form>
+                <p class="padding-left_m">{{filtered_table_rows_count}} resultat(er)</p>
+                <div class="list-group-flush js-mark-results" id="list-tab">
+                    {% for case in display_rows %}
+                        <div id="{{ case.id }}" class="list-group-item" tabindex="0" aria-expanded="false">
+                            <div class="search-result-wrapper search-result" data-case-id="{{ case.id }}" name="searchresult">
+                                <div class="search-result-link row no-gutters">
+                                    <div class="search-result-icon-wrapper">
+                                        <i class="fa fa-inverse fa-2x fa-folder" aria-hidden="true"></i>
+                                        <div class="search-result-type">Sag</div>
+                                    </div>
+                                    <div class="search-result-content-wrapper">
+                                        {% if case.title %}
+                                            <h2 class="case-title link">{{ case.title|truncate(250)|highlight(vars.search) }}</h2>
+                                        {% endif %}
+                                        {% if case.subtitle %}
+                                            <p class="search-result-summary">{{ case.subtitle|truncate(250)|highlight(vars.search) }}</p>
+                                        {% elif case.resume %}
+                                            <p class="search-result-summary">{{ case.resume|truncate(250)|highlight(vars.search) }}</p>
+                                        {% elif case.text %}
+                                            <p class="search-result-summary">{{ case.text|truncate(250)|highlight(vars.search) }}</p>
+                                        {% endif %}
+                                        <p class="search-result-date"><strong>Senest behandlet {{ case.last_deliberation_date|localize }}</strong></p>
+                                    </div>
+                                    <div class="search-result-more">
+                                        <i class="fa fa-plus ml-4" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="expanded" data-case-id="{{ case.id }}">
+                                <div class="case expanded-inner margin-top_m padding-bottom_m">
+                                    {% if case.type == "record" %}
+                                        <a class="case-link-share" tabindex="0"><span class="case-link-trigger">Del denne sag</span></a>
+                                        <div class="case-link">
+                                            <div class="case-link-inner">
+                                                <div class="copy-text"><a class="case-anchor" href="/db/cases/{{case.id}}">https://byraadsarkivet.aarhus.dk/db/cases/{{case.id}}</a></div>
+                                                <!-- <div class="copy-btn btn btn-primary">Kopiér link</div> -->
+                                                <button type="button" class="copy-btn btn btn-primary">Kopiér link</button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% include 'components/case.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="static-page">
+                <p class="zero-hits">Der var desværre ingen resultater, der matchede din søgning!</p class="zero-hits">
+                <p>Prøv med andre søgeord eller udvid søgningen til at dække nogle flere år.</p>
+            </div>
+        {% endif %}
+    </div>
+    {% if next_url %}
+        <div class="text-align_center margin-bottom_l"><a class="text-decoration_underline" title="Gå til næste side med søgeresultater" href="{{ next_url }}">Næste side</a></div>
+    {% endif %}
+</div>
+
+{% endblock content %}

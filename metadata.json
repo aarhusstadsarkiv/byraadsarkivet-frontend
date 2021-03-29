@@ -1,0 +1,17 @@
+{
+  "databases": {
+    "db": {
+      "tables": {
+        "cases": {
+          "fts_table": "cases_fts",
+          "fts_id": "id",
+          "sortable_columns": ["date", "last_deliberation_date"],
+          "size": 25
+        },
+        "meetings": {
+          "sortable_columns": ["date"]
+        }
+      }
+    }
+  }
+}

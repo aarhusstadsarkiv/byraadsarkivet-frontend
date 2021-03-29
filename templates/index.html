@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Aarhus Byrådsarkiv{% endblock %}
+
+{% block description %}I Aarhus byrådsarkiv kan du finde mødereferater og bilag fra både Aarhus Byråd, Magistraten og de politiske udvalg{% endblock description %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://www.example.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://byraadsarkivet.aarhus.dk/db/cases?_search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+{% endblock extra_head %}
+
+{% block body_class %}index{% endblock %}
+
+{% block content %}
+  <img class="background-image" src="/static/bg_spring_1721.jpg" alt="" srcset="/static/bg_spring_640.jpg 640w, /static/bg_spring_800.jpg 800w, /static/bg_spring_1024.jpg 1024w, /static/bg_spring_1280.jpg 1280w, /static/bg_spring_1721.jpg 1721w">
+  <div class="container is-front">
+    <div class="search-box is-front" role="search">
+      <div id="content">
+        <div class="intro">
+          <h1 class="no-transform">Byrådsarkivet</h1>
+          <div>Her kan du finde nye og gamle sager fra Aarhus Byråd, Magistraten og de politiske udvalg</div>
+        </div>
+        <form id="search-form" method="GET" action="/db/cases">
+          <div class="form-row mb-4">
+            <div class="form-group col-md-10">
+              <input class="form-control" aria-label="Søg" name="_search" type="search" placeholder="Skriv f.eks. Gellerupplanen eller letbanen">
+            </div>
+            <div class="form-group col-md-2 mb-0 checkbox-slider">
+              <div class="slider-title" aria-hidden="">Søg kun i titel</div>
+              <div class="form-group mb-0">
+                <label class="ie-switch" for="switch-checkbox" aria-label="Søg kun i sagstitler">
+                  <input class="sr-only" type="checkbox" id="switch-checkbox" />
+                  <div class="slider"></div>
+                </label>
+              </div>
+            </div>
+            <!-- 
+            <div class="form-group col-md-2 mb-0 checkbox-slider">
+              <div for class="slider-title">Søg kun i titel</div>
+              <div class="form-group mb-0">
+                <span class="switch switch-lg">
+                  <input type="checkbox" class="switch" id="title_only" tabindex="0">
+                  <label for="title_only" class="sr-only">Kun titel</label>
+                </span>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="form-row mb-4">
+            <div class="form-group col-md-5">
+              <label for="type">Mødefora</label>
+              <select id="type" aria-label="Vælg Udvalg" name="fora__contains" class="form-control">
+                  <option value="" selected>Alle</option>
+                <optgroup label="Aktuelle udvalg">
+                  {% for k, v in current_fora.items() %}
+                    <option value="{{k}}">{{v.label}}</option>
+                  {% endfor %}
+                </optgroup>
+                <optgroup label="Historiske udvalg">
+                  {% for k, v in previous_fora.items() %}
+                    <option value="{{k}}">{{v.label}}</option>
+                  {% endfor %}
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="year_from">Årstal</label>
+              <!-- <input id="year_from" aria-label="Fra årstal" name="year__gte" class="form-control" type="number" value="{{from_year}}"> -->
+              <input id="year_from" aria-label="Fra årstal" name="year__gte" class="form-control" type="text" inputmode="numeric" pattern="(19[9][789]|20[012]\d)" value="{{ from_year }}">
+
+            </div>
+            <div class="form-group col-md-1">
+              <div class="form-info">til</div>
+            </div>
+            <div class="form-group col-md-2 align-end">
+              <!-- <label for="year_to" aria-label="Til årstal">&nbsp;</label> -->
+              <!-- <input id="year_to" aria-label="Til årstal" name="year__lte" class="form-control" type="number" value="{{to_year}}"> -->
+              <input id="year_to" aria-label="Til årstal" name="year__lte" class="form-control" type="text" inputmode="numeric" pattern="(19[9][789]|20[012]\d)" value="{{ to_year }}">
+
+            </div>
+          </div>
+          <input type="hidden" name="_sort_desc" value="last_deliberation_date">
+          <!-- <input type="hidden" name="_searchmode" value="raw"> -->
+          <div class="form-row mb-4">
+            <div class="form-group mx-auto">
+              <button type="submit" class="btn btn-lg btn-primary btn-submit">Søg<i class="fa fa-search ml-4"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

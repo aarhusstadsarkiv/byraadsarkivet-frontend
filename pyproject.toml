@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "YOUR_MODULE_NAME"
+name = "byraadsarkivet-frontend"
 version = "0.1.0"
 description = ""
-authors = ["YOUR NAME <YOUR@EMAIL>"]
+authors = ["cjk@aarhus.dk>"]
 maintainers = ["Aarhus Stadsarkiv <stadsarkiv@aarhus.dk>"]
 license = "GPL-3.0"
 readme = "README.md"
@@ -10,6 +10,7 @@ homepage = "https://www.aarhusstadsarkiv.dk/"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+datasette = "^0.56"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"

@@ -1,37 +1,36 @@
-[![Aarhus Stadsarkiv](https://raw.githubusercontent.com/aarhusstadsarkiv/py-template/master/img/logo.png)](https://www.aarhusstadsarkiv.dk/)
-# py-template
-Template repository for Python projects at Aarhus Stadsarkiv.
+# Byraadsarkivet
+Front for byraadsarkivet.
 
-## Instructions
-This repository includes default configuration files. A few changes needs to be made in some of them, specifically regarding **module name** and **author information**.
+## Online sites
+- Production site:
+  https://byraadsarkivet.aarhus.dk
+- Test site:
+  https://minutes-aar-test.azurewebsites.net (currently not active)
 
-#### pyproject.toml
-In `pyproject.toml`, `name` and `authors` should be changed:
-```toml
-[tool.poetry]
-name = "YOUR_MODULE_NAME"
-version = "0.1.0"
-description = ""
-authors = ["YOUR NAME <YOUR@EMAIL>"]
-maintainers = ["Aarhus Stadsarkiv <stadsarkiv@aarhus.dk>"]
-license = "GPL-3.0"
-readme = "README.md"
-homepage = "https://www.aarhusstadsarkiv.dk/"
-```
-`name` refers to your module name. Remember to use underscores instead of dashes when naming your module!
+### Local test:
+`$ datasette -i db.db --reload --plugins-dir plugins/ --template-dir templates/ --static static:static/ --metadata metadata.json --setting template_debug 1`
 
-#### mypy.ini
-In `mypy.ini`, the per module options should be changed to reflect your module name:
-```ini
-# Per module options
-[mypy-YOUR_MODULE_NAME.*]
-disallow_untyped_defs = True
+### Docker test
+1. `$ docker build . --tag minutes.azurecr.io/aar-{current_date}-v{version}`
+2. `$ docker run -p 80:80 minutes.azurecr.io/aar-{current_date}-v{version}`
 
-```
+### Docker deployment
+3. `$ docker login minutes.azurecr.io`
+4. `$ docker push minutes.azurecr.io/aar-{current_date}-v{version}`
+5. `$ docker stop {container-name}`
 
-#### GitHub Actions
-This repository includes a simple GitHub Actions workflow that sets up `poetry` with caching and checks linting & types using `flake8`, `black`, and `mypy`.
-It also includes the initial setup for testing and upload to [codecov](https://codecov.io/) as a commented block. This part of the workflow requires adding a [codecov token](https://docs.codecov.io/docs#section-getting-started) as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets). In addition, the call to `pytest` must be updated with the relevant project name.
+### Azure deployment
+1. Update docker image for either minutes-aar or minutes-aar-test
 
-#### And finally...
-Remember to change this `README` to suit your repository! The logo link can be reused.
+## Performance
+Use locust to performance test the online frontend from /tests:
+`$ locust --config=config.conf`
+
+## Singular update
+Used when a citizen has asked for personal data to be removed.
+This fires a complete update of one or more cases or meetings, and a replacement of one or more files.
+
+1. get the id of the relevant meeting or case.
+2. get the relevant data via the json-api
+3. update the case-dict if necessary
+4. replace any binary files with the redacted copies

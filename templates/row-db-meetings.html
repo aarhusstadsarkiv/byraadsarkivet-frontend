@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% set vars = {"sender": "", "meeting": display_rows[0], "public": display_rows[0].public == "True"} %}
+
+{% block title %}Mødereferat {{vars.meeting.date|localize}} - {{vars.meeting.fora_name}}{% endblock %}
+
+{% block description %}Mødereferat {{vars.meeting.date|localize}} - {{vars.meeting.fora_name}}{% endblock %}
+
+{% block body_class %}agenda{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <nav aria-label="breadcrumb mb-0 bg-light">
+            <ol class="breadcrumb mb-0 bg-light">
+                <li class="breadcrumb-item"><a href="/">Hjem</a></li>
+                <li class="breadcrumb-item active">Mødereferat</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="hero-container">
+    <div class="hero hero--image-right">
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="title underlined" id="content-headline"><div>{{vars.meeting.date|localize}}</div>Mødereferat fra {{vars.meeting.fora_name}}{% if not vars.public %} (Lukket møde){% endif %}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="content">
+        <div class="list">
+            <div class="list-group-flush js-mark-results">
+            {% for item in vars.meeting.agenda|loadjson %}
+                <div id="{{item.id}}" class="list-group-item" tabindex="0">
+                    <div class="search-result-wrapper search-result" data-case-id="{{item.id}}">
+                        <div class="search-result-link row no-gutters {% if not item.public %}closed{% endif %}">
+                            {% if item.number != 0 %}
+                                <div class="search-result-icon-wrapper {% if not item.public %}background_gray{% endif %}">
+                                    <div class="priority">{{item.number}}</div>
+                                </div>
+                            {% endif %}
+                            <div class="search-result-content-wrapper is-centered">
+                                <h2 class="case-title link{% if not item.public %} color_gray{% endif %}">{{item.title}}</h2>
+                            </div> 
+                            <div class="search-result-more">
+                                <i class="fa fa-plus ml-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expanded" data-case-id="{{ item.id }}">
+                        <div class="expanded-inner margin-top_m padding-bottom_m">
+                        {% if item.type == "indstilling" %}
+                            <a class="case-link-share" tabindex="0"><span class="case-link-trigger">Del denne sag</span></a>
+                            <div class="case-link">
+                                <div class="case-link-inner">
+                                    <div class="copy-text"><a class="case-anchor" href="/db/cases/{{item.id}}">https://byraadsarkivet.aarhus.dk/db/cases/{{item.id}}</a></div>
+                                    <button type="button" class="copy-btn btn btn-primary">Kopiér link</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
