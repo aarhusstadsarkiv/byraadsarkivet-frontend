@@ -1,5 +1,29 @@
 $(document).ready(function() {
 
+    
+    function compareValues(key, order = 'asc') {
+        return function innerSort(a, b) {
+            if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                // property doesn't exist on either object
+                return 0;
+            }
+        
+            const varA = (typeof a[key] === 'string')
+                ? a[key].toUpperCase() : a[key];
+            const varB = (typeof b[key] === 'string')
+                ? b[key].toUpperCase() : b[key];
+        
+            let comparison = 0;
+            if (varA > varB) {
+                comparison = 1;
+            } else if (varA < varB) {
+                comparison = -1;
+            }
+            return (
+                (order === 'desc') ? (comparison * -1) : comparison
+            );
+        };
+    }
     function localize(date) {
         var months = {
             "01": "januar",
@@ -94,8 +118,10 @@ $(document).ready(function() {
                             html+='<div class="case-decision-files padding-left_s padding-top_s">';
                             html+='<h5>Bilag</h5>';
                             if (dict.attachment_intro) { html+='<p>' + dict.attachment_intro + ':</p>'; }
-                            dict.files.forEach( function(attachment) {
-                                html+='<p class="case-decision-file"><a href="' + attachment.href + '" target="_blank">' + attachment.filename + '</a></p>';
+                            var sorted_files = dict.files.sort(compareValues('filename'));
+                            sorted_files.forEach( function(attachment) {
+                            // dict.files.forEach( function(attachment) {
+                                html+='<p class="case-decision-file"><a href="' + attachment.href + '" target="_blank">' +  attachment.filename.charAt(0).toUpperCase() + attachment.filename.slice(1) + '</a></p>';
                             });
                             html += '</div>'; // closing .case-decision-files
                         }
@@ -107,8 +133,10 @@ $(document).ready(function() {
                 // files
                 if (el.files) {
                     html+='<h3 class="case-files padding-top_l">Bilag</h3>';
-                    el.files.forEach( function(attachment) {
-                        html+='<div class="case-file"><a href="' + attachment.href + '" target="_blank">' + attachment.filename + '</a></div>';
+                    var sorted_files = el.files.sort(compareValues('filename'));
+                    sorted_files.forEach( function(attachment) {
+                    // el.files.forEach( function(attachment) {
+                        html+='<div class="case-file"><a href="' + attachment.href + '" target="_blank">' + attachment.filename.charAt(0).toUpperCase() + attachment.filename.slice(1) + '</a></div>';
                     });
                 }
                 // html+='</div>'; // closing .expanded-inner
