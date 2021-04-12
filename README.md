@@ -26,6 +26,20 @@ Front for byraadsarkivet.
 Use locust to performance test the online frontend from /tests:
 `$ locust --config=config.conf`
 
+## Batch update (with FirstAgenda data)
+1. `$ python import_new_cases_to_db.py`
+2. `$ python import_new_meetings_to_db.py`
+3. Run workflow to generate new .db from the new csv-files
+
+## Generate new .db-file from updated csv-files
+- `$ sqlite3`
+- `$ sqlite> .open db.db`
+- `$ sqlite> .read schema.sql`
+- `$ sqlite> .mode csv`
+- `$ sqlite> .import data/merged_cases.csv cases`
+- `$ sqlite> .import data/merged_meetings.csv meetings`
+- `$ sqlite> .quit`
+
 ## Singular update
 Used when a citizen has asked for personal data to be removed.
 This fires a complete update of one or more cases or meetings, and a replacement of one or more files.
