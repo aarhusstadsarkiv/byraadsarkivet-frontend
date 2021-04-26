@@ -1,9 +1,12 @@
 from typing import Dict, List
 import csv
-import json
+
+# import json
 
 """
-When viewing online cases, use ".json?_shape=object&_json=metadata&_json=files&_json=decisions"
+When viewing online cases, use:
+.json?_shape=object&_json=metadata&_json=files&_json=decisions
+
 """
 
 template: Dict = {
@@ -49,9 +52,10 @@ template: Dict = {
 
 file = "../data/cases_table_20210412.csv"
 
+
 def main():
     # load current db.cases (no headers)
-    cases: List[List] = []
+    cases: List[Dict] = []
     with open(file, encoding="utf-8") as f:
         rows = csv.DictReader(
             f,
@@ -78,23 +82,21 @@ def main():
         for r in rows:
             cases.append(r)
 
-    # TEST 1. Which cases have multiple refs to same case_id
     for d in cases:
         id_ = d["id"]
-        type_ = d["type"]
-        if type_ == "indstilling":
-            decisions: List[Dict] = json.loads(d["decisions"])
 
-            ########################################
-            # Test for multiple refs to same case_id
-            ########################################
-            # decision_set: List[str] = []
-            # for i in decisions:
-                # if i in decision_set:
-                #     print(f"Multiple decisions in case {d['id']}")
-                # else:
-                #     decision_set.append(i)
-
+        ########################################
+        # Test for multiple refs to same case_id
+        ########################################
+        # type_ = d["type"]
+        # if type_ == "indstilling":
+        #     decisions: List[Dict] = json.loads(d["decisions"])
+        #     decision_set: List[str] = []
+        #     for i in decisions:
+        #         if i in decision_set:
+        #             print(f"Multiple decisions in case {d['id']}")
+        #         else:
+        #             decision_set.append(i)
 
         ############################
         # Test for similar textblobs
@@ -113,7 +115,7 @@ def main():
             if presentation and presentation == title:
                 print(f"Similar title/presentation in case: {id_}")
             if notes and notes == title:
-                print(f"Similar title/notes in case: {id_}")                
+                print(f"Similar title/notes in case: {id_}")
         if resume:
             if subtitle and subtitle == resume:
                 print(f"Similar resume/subtitle in case: {id_}")
@@ -129,6 +131,7 @@ def main():
         if presentation:
             if notes and notes == presentation:
                 print(f"Similar presentation/notes in case: {id_}")
+
 
 if __name__ == "__main__":
     main()

@@ -3,7 +3,9 @@ import csv
 import json
 
 """
-When viewing online meetings, use ".json?_shape=object&_json=agenda&_json=metadata&_json=files"
+When viewing online meetings, use:
+.json?_shape=object&_json=agenda&_json=metadata&_json=files
+
 """
 
 template: Dict = {
@@ -40,7 +42,7 @@ template: Dict = {
 
 def main():
     # load current db.meetings (no headers)
-    meetings: List[List] = []
+    meetings: List[Dict] = []
     with open("../data/meetings_table_20210426.csv", encoding="utf-8") as f:
         rows = csv.DictReader(
             f,
@@ -60,14 +62,10 @@ def main():
         for r in rows:
             meetings.append(r)
 
-    # TEST 1. Which meetings have multiple refs to same case_id
     for m in meetings:
-        try:
-            agenda: List[Dict] = json.loads(m["agenda"])
-        except KeyError as e:
-            print(f"This meeting has no agenda: {m['id']}")
-        case_ids: List[str] = []
-        item_title: List[str] = []
+        agenda: List[Dict] = json.loads(m["agenda"])
+        # case_ids: List[str] = []
+        # item_title: List[str] = []
         item_number: List[str] = []
         for i in agenda:
             ########################################
@@ -87,7 +85,10 @@ def main():
             # test for multiple agendaitem numbers, excluding zero
             number = i["number"]
             if number in item_number and int(number) > 0:
-                print(f"Similar numbers in meeting {m['id']}: {number} ({m['fora_name']})")
+                print(
+                    f"Similar numbers in meeting {m['id']}: \
+                    {number} ({m['fora_name']})"
+                )
             else:
                 item_number.append(number)
 
