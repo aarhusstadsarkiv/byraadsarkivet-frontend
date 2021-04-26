@@ -13,7 +13,7 @@ template: Dict = {
     "id": "int",
     "db_id": "int",
     "type": "str",
-    "title": "int",
+    "title": "str",
     "public": "bool",
     "date": "str",
     "last_deliberation_date": "str",
