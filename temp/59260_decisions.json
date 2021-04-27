@@ -1,0 +1,57 @@
+[
+    {
+        "public": true,
+        "original_id": "0aaecfbc-f2a7-4150-8a6e-9bf2e75cfe47",
+        "date": "2018-09-03",
+        "title": "Til orientering.\n\nRådmand Bünyamin Simsek var forhindret i at deltage i sagens behandling.",
+        "fora_name": "Magistraten",
+        "fora_id": 20,
+        "meeting_id": 11192,
+        "meeting_orig_id": "3ae6c4dc-96f3-47e9-a903-6923d9aadcb2",
+        "id": 509890
+    },
+    {
+        "public": true,
+        "original_id": "1fd203e6-b735-4365-a702-2c14b04e5433",
+        "date": "2018-09-13",
+        "title": "Fremsendes til behandling i 1. fællesmøde mellem Magistraten og Økonomiudvalget efter behandling i byrådets møde den 13. september 2018.",
+        "fora_name": "Aarhus Byråd",
+        "fora_id": 13,
+        "meeting_id": 11199,
+        "meeting_orig_id": "ed1d87e9-f5a8-4387-aca2-2da903f2dffa",
+        "id": 510092
+    },
+    {
+        "public": true,
+        "original_id": "5e77a61e-9f57-4f96-b8c3-c8e983509424",
+        "date": "2018-09-19",
+        "title": "Magistraten og Økonomiudvalget blev orienteret og drøftede punktet. Sagen sendes til 2. fællesmøde mellem Magistraten og Økonomiudvalget.",
+        "fora_name": "Fælles udvalgsmøde",
+        "fora_id": 16,
+        "meeting_id": 11205,
+        "meeting_orig_id": "4188371d-3582-4521-91a9-a4776b72a71a",
+        "id": 510122
+    },
+    {
+        "public": true,
+        "original_id": "c5e18fc7-8281-478a-b538-c6763f867c1e",
+        "date": "2018-10-03",
+        "title": "Der henvises til fælleserklæringen mellem Magistraten og Økonomiudvalget.",
+        "fora_name": "Fælles udvalgsmøde",
+        "fora_id": 16,
+        "meeting_id": 11216,
+        "meeting_orig_id": "2ac9f7d7-315b-465d-8a77-18063d1f24d4",
+        "id": 510185
+    },
+    {
+        "public": true,
+        "original_id": "fdf7248e-4e69-46d8-983d-0691d939490b",
+        "date": "2018-10-11",
+        "title": "Sagen blev behandlet sammen med sag 1 og 3.",
+        "fora_name": "Aarhus Byråd",
+        "fora_id": 13,
+        "meeting_id": 11225,
+        "meeting_orig_id": "0096c139-33dd-4761-b6e9-8aa8ec320e11",
+        "id": 510252
+    }
+]

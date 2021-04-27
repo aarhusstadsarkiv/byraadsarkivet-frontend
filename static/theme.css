@@ -203,7 +203,7 @@ a:focus {
     outline: 3px solid #3661d8;
 }
 nav {
-    background-color: #f7f750;
+    background-color: white;
 }
 .navbar-brand {
     margin-right: 2rem;
@@ -352,6 +352,36 @@ nav {
     display: flex;
     flex-wrap: wrap;
     column-gap: 1.8em;
+}
+
+/* AUDIOFILES */
+.meeting-audiofile,
+.meeting-file {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: .75rem 1.25rem;
+    border-top: 1px solid #d6d6d6;
+}
+
+.meeting-audiofile:first-of-type,
+.meeting-file:first-of-type {
+    border-top: none;
+}
+.meeting-audiofile h3 {
+    text-transform: none;
+    font-weight: 400;
+    font-size: 1.2em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    flex-grow: 4;
+}
+.meeting-audiofile audio {
+    flex-grow: 0;
+}
+.meeting-audiofile audio:focus {
+    outline: 3px solid #3661d8;
 }
 
 /* UTILITY RULES */
