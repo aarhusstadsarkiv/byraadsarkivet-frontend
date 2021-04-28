@@ -50,13 +50,13 @@ template: Dict = {
     },
 }
 
-file = "../data/cases_table_20210412.csv"
+file_ = "../data/cases_20210428_v2.csv"
 
 
 def main():
     # load current db.cases (no headers)
     cases: List[Dict] = []
-    with open(file, encoding="utf-8") as f:
+    with open(file_, encoding="utf-8") as f:
         rows = csv.DictReader(
             f,
             fieldnames=[

@@ -73,8 +73,6 @@ $(document).ready(function() {
                 // decisions
                 if (el.decisions) {
                     var length = el.decisions.length;
-                    // html += '<div class="padding-top_l">';
-                    // if (length > 1) { html+='<h3>Sagens forløb</h3><hr>'; }
                     html+='<h3 class="padding-top_l">Sagens forløb</h3><hr>';
                     // container for case-decisions
                     el.decisions.forEach( function(dict) {
