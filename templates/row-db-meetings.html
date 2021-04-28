@@ -67,6 +67,28 @@
             {% endfor %}
             </div>
         </div>
+        {% if vars.meeting.files %}
+            <h2 class="padding-left_m padding-top_m">
+                <span>
+                    {% if ".mp3" in vars.meeting.files %}Lyt til debatten{% else %}Mødebilag{% endif %}
+                </span>
+            </h2>
+            
+            <div class="list">
+                {% for f in vars.meeting.files|loadjson %}
+                    {% if ".mp3" in f.href %}
+                        <div class="meeting-audiofile">
+                            <h3>{{ f.filename }}</h3>
+                            <audio src="{{ f.href }}" controls preload="metadata"></audio>
+                        </div>
+                    {% else %}
+                        <div class="meeting-file">
+                            <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
