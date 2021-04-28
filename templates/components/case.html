@@ -95,7 +95,8 @@
     {% if case.files and (case.files != "null") %} {# and  and (case.files|truthy) #}
         <h2 class="padding-top_l">bilag</h2>
         <hr>
-        {% for f in case.files|loadjson|sort(attribute="filename") %}
+        {# {% for f in case.files|loadjson|sort(attribute="filename") %} #}
+        {% for f in case.files|loadjson %}
             <div class="case-decision-file"><a class="underline" href="{{ f.href }}" target="_blank">{{ f.filename[0]|upper }}{{ f.filename[1:] }}</a></div>
         {% endfor %}
     {% endif %}
