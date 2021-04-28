@@ -64,17 +64,17 @@ def main():
 
     for m in meetings:
         agenda: List[Dict] = json.loads(m["agenda"])
-        # case_ids: List[str] = []
+        case_ids: List[int] = []
         # item_title: List[str] = []
-        item_number: List[str] = []
+        # item_number: List[str] = []
         for i in agenda:
             ########################################
             # Test for multiple refs to same case_id
             ########################################
-            # if i["id"] in case_ids:
-            #     print(f"Multiple case_refs in meeting {m['id']}: {i['id']}")
-            # else:
-            #     case_ids.append(i["id"])
+            if int(i["id"]) in case_ids:
+                print(f"Multiple case_refs in meeting {m['id']}: {i['id']}")
+            else:
+                case_ids.append(int(i["id"]))
 
             # test for similar titles
             # if i["title"] in item_title:
@@ -83,14 +83,14 @@ def main():
             #     item_title.append(i["title"])
 
             # test for multiple agendaitem numbers, excluding zero
-            number = i["number"]
-            if number in item_number and int(number) > 0:
-                print(
-                    f"Similar numbers in meeting {m['id']}: \
-                    {number} ({m['fora_name']})"
-                )
-            else:
-                item_number.append(number)
+            # number = i["number"]
+            # if number in item_number and int(number) > 0:
+            #     print(
+            #         f"Similar numbers in meeting {m['id']}: \
+            #         {number} ({m['fora_name']})"
+            #     )
+            # else:
+            #     item_number.append(number)
 
 
 if __name__ == "__main__":

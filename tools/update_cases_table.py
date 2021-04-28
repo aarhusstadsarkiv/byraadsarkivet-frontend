@@ -61,11 +61,7 @@ def load_table(
 def updated_json_values(case_id: str) -> Dict[str, str]:
     out: Dict = {}
     for f in Path("../temp/").iterdir():
-        if (
-            f.is_file()
-            and f.stem.startswith(case_id)
-            and f.suffix == ".json"
-        ):
+        if f.is_file() and f.stem.startswith(case_id) and f.suffix == ".json":
             print(f"found file {f.name}")
             key = f.stem.split("_")[1]
             with open(f, encoding="utf-8") as i:

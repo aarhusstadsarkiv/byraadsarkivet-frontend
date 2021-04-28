@@ -1,6 +1,5 @@
 from typing import List, Dict, Literal
 import csv
-import json
 from pathlib import Path
 
 case_headers = [
@@ -49,6 +48,7 @@ def load_table(
             table_data.append(row)
     return table_data
 
+
 def main():
     cases = load_table(Path("../data/cases_table_20210427.csv"), "cases")
     cases2 = load_table(Path("../data/cases_table_20210427_v2.csv"), "cases")
@@ -59,7 +59,7 @@ def main():
             print(type(cases[i]["metadata"]))
             print(cases2[i])
             print("\n")
-            # print(f"diff between cases {cases[i].get('id')} and cases2 {cases2[i].get('id')} ")
+
 
 if __name__ == "__main__":
     main()

@@ -24,6 +24,7 @@ $(document).ready(function() {
             );
         };
     }
+
     function localize(date) {
         var months = {
             "01": "januar",
@@ -133,9 +134,10 @@ $(document).ready(function() {
                 // files
                 if (el.files) {
                     html+='<h3 class="case-files padding-top_l">Bilag</h3>';
-                    var sorted_files = el.files.sort(compareValues('filename'));
-                    sorted_files.forEach( function(attachment) {
-                    // el.files.forEach( function(attachment) {
+                    // use if wanting to sort by filename
+                    //var sorted_files = el.files.sort(compareValues('filename'));
+                    // sorted_files.forEach( function(attachment) {
+                    el.files.forEach( function(attachment) {
                         html+='<div class="case-file"><a href="' + attachment.href + '" target="_blank">' + attachment.filename.charAt(0).toUpperCase() + attachment.filename.slice(1) + '</a></div>';
                     });
                 }
