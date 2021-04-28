@@ -26,6 +26,12 @@ Front for byraadsarkivet.
 Use locust to performance test the online frontend from /tests:
 `$ locust --config=config.conf`
 
+## Columns
+1. Cases
+id,db_id,type,title,public,date,last_deliberation_date,year,subtitle,resume,suggestion,presentation,notes,fora,decisions,files,metadata
+2. Meetings
+id,fora_id,fora_name,year,date,title,public,agenda,metadata,files
+
 ## Batch update (with FirstAgenda data)
 1. `$ python import_new_cases_to_db.py`
 2. `$ python import_new_meetings_to_db.py`
