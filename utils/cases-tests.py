@@ -1,7 +1,8 @@
 from typing import Dict, List
 import csv
-
-# import json
+import json
+import requests
+import time
 
 """
 When viewing online cases, use:
@@ -98,39 +99,76 @@ def main():
         #         else:
         #             decision_set.append(i)
 
+        ############################################
+        # Test for multiple files with same filename
+        ############################################
+        def compare_length(case: int, files: Dict[str, List[str]]):
+            lengths = []
+            for k, v in files.items():
+                for url in v:
+                    r = requests.head(url)
+                    length = r.headers.get('Content-Length')
+                    if not length:
+                        print(f"{case}. No content-length for {k}: {url}")
+                    elif length in lengths:
+                        print(f"{case} has duplicate files: {k}")
+                        lengths.append(length)
+                    else:
+                        lengths.append(length)
+
+    
+        if d.get("files") and d["files"] != "null":
+            files = {}
+            for f in json.loads(d["files"]):
+                r = requests.head(f["href"])
+                length = r.headers.get('Content-Length')
+                if not length:
+                    print(f"{id_}. No content-length: {f['filename']}: {f['href']}")
+                    time.sleep(0.05)
+            # duplicates = False
+            # for i in json.loads(d["files"]):
+            #     name = i["filename"]
+            #     if name in files:
+            #         duplicates = True
+            #         files[name].append(i["href"])
+            #     else:
+            #         files[name] =[i["href"]]
+            # if duplicates:
+            #     compare_length(id_, files)
+
         ############################
         # Test for similar textblobs
         ############################
-        title = d.get("title")
-        resume = d.get("resume")
-        subtitle = d.get("subtitle")
-        presentation = d.get("presentation")
-        notes = d.get("notes")
+        # title = d.get("title")
+        # resume = d.get("resume")
+        # subtitle = d.get("subtitle")
+        # presentation = d.get("presentation")
+        # notes = d.get("notes")
 
-        if title:
-            if subtitle and subtitle == title:
-                print(f"Similar titls/subtitle in case: {id_}")
-            if resume and resume == title == title:
-                print(f"Similar title/resume in case: {id_}")
-            if presentation and presentation == title:
-                print(f"Similar title/presentation in case: {id_}")
-            if notes and notes == title:
-                print(f"Similar title/notes in case: {id_}")
-        if resume:
-            if subtitle and subtitle == resume:
-                print(f"Similar resume/subtitle in case: {id_}")
-            if presentation and presentation == resume:
-                print(f"Similar resume/presentation in case: {id_}")
-            if notes and notes == resume:
-                print(f"Similar resume/notes in case: {id_}")
-        if subtitle:
-            if presentation and presentation == subtitle:
-                print(f"Similar subtitle/presentation in case: {id_}")
-            if notes and notes == subtitle:
-                print(f"Similar subtitle/notes in case: {id_}")
-        if presentation:
-            if notes and notes == presentation:
-                print(f"Similar presentation/notes in case: {id_}")
+        # if title:
+        #     if subtitle and subtitle == title:
+        #         print(f"Similar titls/subtitle in case: {id_}")
+        #     if resume and resume == title == title:
+        #         print(f"Similar title/resume in case: {id_}")
+        #     if presentation and presentation == title:
+        #         print(f"Similar title/presentation in case: {id_}")
+        #     if notes and notes == title:
+        #         print(f"Similar title/notes in case: {id_}")
+        # if resume:
+        #     if subtitle and subtitle == resume:
+        #         print(f"Similar resume/subtitle in case: {id_}")
+        #     if presentation and presentation == resume:
+        #         print(f"Similar resume/presentation in case: {id_}")
+        #     if notes and notes == resume:
+        #         print(f"Similar resume/notes in case: {id_}")
+        # if subtitle:
+        #     if presentation and presentation == subtitle:
+        #         print(f"Similar subtitle/presentation in case: {id_}")
+        #     if notes and notes == subtitle:
+        #         print(f"Similar subtitle/notes in case: {id_}")
+        # if presentation:
+        #     if notes and notes == presentation:
+        #         print(f"Similar presentation/notes in case: {id_}")
 
 
 if __name__ == "__main__":
