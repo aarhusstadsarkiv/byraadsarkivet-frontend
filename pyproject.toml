@@ -17,7 +17,7 @@ requests = "^2.25.1"
 pytest = "^6.2"
 pytest-cov = "^2.11"
 black = "^21.4b1"
-flake8 = "^3.9.1"
+flake8 = "^3.9.2"
 mypy = "^0.812"
 
 [tool.black]
