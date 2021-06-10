@@ -158,8 +158,13 @@
                             <div class="search-result-wrapper search-result" data-case-id="{{ case.id }}" name="searchresult">
                                 <div class="search-result-link row no-gutters">
                                     <div class="search-result-icon-wrapper">
-                                        <i class="fa fa-inverse fa-2x fa-folder" aria-hidden="true"></i>
-                                        <div class="search-result-type">Sag</div>
+                                        {% if case.type == "record" %}
+                                            <i class="fa fa-inverse fa-2x fa-folder" aria-hidden="true"></i>
+                                            <div class="search-result-type">Sag</div>
+                                        {% else %}
+                                            <i class="fa fa-inverse fa-2x fa-file" aria-hidden="true"></i>
+                                            <div class="search-result-type">Adhoc</div>
+                                        {% endif %}
                                     </div>
                                     <div class="search-result-content-wrapper">
                                         {% if case.title %}

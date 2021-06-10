@@ -73,7 +73,9 @@ $(document).ready(function() {
                 // decisions
                 if (el.decisions) {
                     var length = el.decisions.length;
-                    html+='<h3 class="padding-top_l">Sagens forløb</h3><hr>';
+                    if (length > 1) {
+                        html+='<h3 class="padding-top_l">Sagens forløb</h3><hr>';
+                    }
                     // container for case-decisions
                     el.decisions.forEach( function(dict) {
                         // root-container for decision
@@ -99,7 +101,10 @@ $(document).ready(function() {
                             } else if (active_meeting) {
                                 html += localize(dict.date) + ' ' + dict.fora_name + '&nbsp;(dette møde)';
                             } else {
-                                html += localize(dict.date) + ' ' + dict.fora_name;
+                                html += localize(dict.date);
+                                if (dict.fora_name) {
+                                    html += ' ' + dict.fora_name;
+                                }
                             }
                             html +='</h4>'; // close .decision-header
                         }
@@ -147,6 +152,7 @@ $(document).ready(function() {
                 }
                 // append case to html
                 $('[data-case-id="'+id+'"] + .expanded').append(html);
+                // $('[data-case-id="'+id+'"] + .expanded > .expanded-audio').style("display", "block");
             }
         });
     }

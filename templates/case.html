@@ -48,43 +48,46 @@
     {% endif %}
 
     {% if case.decisions %}
+        {% set decisions = case.decisions|loadjson %}
         <div class="padding-top_l">
-            <h2>Sagens forløb</h2>
-            <hr>
-            {% for decision in case.decisions|loadjson %}
+            {% if length(decisions) > 1 %}
+                <h2>Sagens forløb</h2>
+                <hr>
+            {% endif %}
+            {% for d in decisions %}
                 <div class="case-decision margin-left_s padding-bottom_m{% if loop.index > 1 %} padding-top_s{% endif %}">
                     <h3 class="case-decision-header margin-bottom_xs">
-                        {% if decision.meeting_id %}
-                            <a href="/db/meetings/{{decision.meeting_id}}">
-                                <span>{{ decision.get("date") }} {{ decision.get("fora_name") }}</span>
+                        {% if d.meeting_id %}
+                            <a href="/db/meetings/{{d.meeting_id}}">
+                                <span>{{ d.get("date") }} {{ d.get("fora_name") }}</span>
                             </a>
                         {% else %}
-                            <span>{{ decision.get("date") }} {{ decision.get("fora_name") }}</span>
+                            <span>{{ d.get("date") }} {% if d.get("fora_name") %}{{ d.get("fora_name") }}{% endif %}</span>
                         {% endif %}
                     </h3>
-                    {% if decision.get("title") %}
-                        <div class="case-decision-title padding-bottom_s">{{ decision.title }}</div>
+                    {% if d.get("title") %}
+                        <div class="case-decision-title padding-bottom_s">{{ d.title }}</div>
                     {% endif %}
 
-                    {% if decision.get("text") %}
-                        <div class="case-decision-text padding-bottom_s">{{ decision.text }}</div>
+                    {% if d.get("text") %}
+                        <div class="case-decision-text padding-bottom_s">{{ d.text }}</div>
                     {% endif %}
 
-                    {% if decision.get("conclusion") %}
-                        <div class="case-decision-conclusion padding-top_m"><strong>Konklusion</strong><br>{{ decision.conclusion }}</div>
+                    {% if d.get("conclusion") %}
+                        <div class="case-decision-conclusion padding-top_m"><strong>Konklusion</strong><br>{{ d.conclusion }}</div>
                     {% endif %}
                     
-                    {% if decision.get("signature") %}
-                        <div class="case-decision-signature padding-top_m"><strong>Signatur</strong><br>{{ decision.signature }}</div>
+                    {% if d.get("signature") %}
+                        <div class="case-decision-signature padding-top_m"><strong>Signatur</strong><br>{{ d.signature }}</div>
                     {% endif %}
 
-                    {% if decision.get("files") %}
+                    {% if d.get("files") %}
                         <div class="case-decision-files padding-top_m">
                             <h4>Bilag</h4>
-                            {% if decision.get("attachment_intro") %}
-                                <div class="padding-bottom_s">{{ decision.attachment_intro }}:</div>
+                            {% if d.get("attachment_intro") %}
+                                <div class="padding-bottom_s">{{ d.attachment_intro }}:</div>
                             {% endif %}
-                            {% for f in decision.files|loadjson %}
+                            {% for f in d.files|loadjson %}
                                 <div class="case-decision-file padding-bottom_s"><a href="{{ f.href }}">{{ f.filename|capitalize }}</a></div>
                             {% endfor %}
                         </div>

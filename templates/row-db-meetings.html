@@ -42,8 +42,11 @@
                                     <div class="priority">{{item.number}}</div>
                                 </div>
                             {% endif %}
-                            <div class="search-result-content-wrapper is-centered">
+                            <div class="search-result-content-wrapper">
                                 <h2 class="case-title link{% if not item.public %} color_gray{% endif %}">{{item.title}}</h2>
+                                {% if item.audio %}
+                                    <i class="audio-icon fas fa-volume-up"></i>
+                                {% endif %}
                             </div> 
                             <div class="search-result-more">
                                 <i class="fa fa-plus ml-4"></i>
@@ -62,30 +65,43 @@
                             </div>
                         {% endif %}
                         </div>
+
+                        {#
+                        {% if item.audio %}
+                            <div class="expanded-audio">
+                                <h3 class="case-files padding-top_l">Lyt til debatten</h3>
+                                {% for f in item.audio %}
+                                    <div class="meeting-audiofile">
+                                        <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        #}
+
                     </div>
                 </div>
             {% endfor %}
             </div>
         </div>
-        {% if vars.meeting.files %}
+        {% if vars.meeting.files and ".pdf" in vars.meeting.files %}
+            <h2 class="padding-left_m padding-top_m">
+                <span>Mødebilag</span>
+            </h2>
+
+            {#
             <h2 class="padding-left_m padding-top_m">
                 <span>
-                    {% if ".mp3" in vars.meeting.files %}Lyt til debatten{% else %}Mødebilag{% endif %}
+                    {% if ".pdf" in vars.meeting.files %}Møde{% else %}Mødebilag{% endif %}
                 </span>
             </h2>
-            
+            #}
+
             <div class="list">
                 {% for f in vars.meeting.files|loadjson %}
-                    {% if ".mp3" in f.href %}
-                        <div class="meeting-audiofile">
-                            <h3>{{ f.filename }}</h3>
-                            <audio src="{{ f.href }}" controls preload="metadata"></audio>
-                        </div>
-                    {% else %}
-                        <div class="meeting-file">
-                            <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
-                        </div>
-                    {% endif %}
+                    <div class="meeting-file">
+                        <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}

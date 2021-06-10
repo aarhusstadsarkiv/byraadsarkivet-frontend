@@ -60,10 +60,18 @@ body {
         display: none;
     }
 }
-/* Fixes IE11-problem */
+
 .search-result-content-wrapper {
-    flex: 1;
+    display: flex;
+    flex: 1; /* Fixes IE11-problem */
+    justify-content: space-between;
+    align-items: center;
 }
+
+.audio-icon {
+    margin-right: -1em;
+}
+
 /* ie9+ */
 .aria-only:not(:focus):not(:active) {
     clip: rect(0 0 0 0); 
@@ -115,6 +123,9 @@ mark {
 /* Searchresults on smaller screens */
 @media (max-width: 768px) {
     .search-result-icon-wrapper {
+        display: none;
+    }
+    .audio-icon {
         display: none;
     }
     .list-group-item {
@@ -192,6 +203,9 @@ div#content:before {
 }
 .expanded {
     display: none;
+}
+.expanded-audio {
+    /* display: none; */
 }
 .case-link-share {
     display: block;
