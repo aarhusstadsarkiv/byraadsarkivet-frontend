@@ -42,12 +42,12 @@
                                     <div class="priority">{{item.number}}</div>
                                 </div>
                             {% endif %}
-                            <div class="search-result-content-wrapper">
+                            <div class="search-result-content-wrapper is-centered">
                                 <h2 class="case-title link{% if not item.public %} color_gray{% endif %}">{{item.title}}</h2>
-                                {% if item.audio %}
-                                    <i class="audio-icon fas fa-volume-up"></i>
-                                {% endif %}
                             </div> 
+                            {% if item.audio %}
+                                <i class="audio-icon fas fa-volume-up"></i>
+                            {% endif %}
                             <div class="search-result-more">
                                 <i class="fa fa-plus ml-4"></i>
                             </div>

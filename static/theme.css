@@ -62,14 +62,15 @@ body {
 }
 
 .search-result-content-wrapper {
-    display: flex;
+    /* display: flex; */
     flex: 1; /* Fixes IE11-problem */
-    justify-content: space-between;
-    align-items: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
 }
 
 .audio-icon {
     margin-right: -1em;
+    align-self: center;
 }
 
 /* ie9+ */
@@ -204,9 +205,11 @@ div#content:before {
 .expanded {
     display: none;
 }
+/* 
 .expanded-audio {
-    /* display: none; */
+    display: none;
 }
+ */
 .case-link-share {
     display: block;
 }
