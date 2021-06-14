@@ -88,7 +88,7 @@ def main():
     # Add all adhoc-items with same title
     # to the generated multi-decision adhocs
     ###############################
-    duplicates: Dict[Dict[str, List]] = {}
+    duplicates: Dict = {}
     with open("adhoc_duplicates_title_based.json", encoding="utf-8") as i:
         duplicates = json.load(i)
 

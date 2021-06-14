@@ -3,8 +3,8 @@ import csv
 import json
 from typing import List, Dict, Literal
 
-case_headers = []
-meeting_headers = [
+case_headers: List[str] = []
+meeting_headers: List[str] = [
     "id",
     "fora_id",
     "fora_name",
@@ -30,16 +30,23 @@ def load_table(
 
 
 def main():
-    meetings = load_table(Path("../data/meetings_20210610.csv"), "meetings")
+    meetings = load_table(Path("../data/meetings_20210611.csv"), "meetings")
     # new_meetings: List[Dict] = []
     for m in meetings:
         if not m.get("files"):
             continue
         a_: List[Dict] = json.loads(m["agenda"])
+        agenda: Dict[str, List] = {}
+        for i in a_:
+            i.pop("audio", None)
+
+            agenda[str(i["number"])]
         agenda = {str(i["number"]): i for i in a_}
 
         files: List[Dict] = json.loads(m["files"])
         for d in files:
+            if not d.get("agendaitem"):
+                continue
             number = str(d.get("agendaitem", "0"))
             if number in agenda:
                 if not agenda[number].get("audio"):
@@ -52,7 +59,7 @@ def main():
         # if m["id"] == "11180":
         #     print(m["agenda"])
 
-    with open("meetings_20210610_v2.csv", "w", encoding="utf-8") as o:
+    with open("meetings_20210614.csv", "w", encoding="utf-8") as o:
         writer = csv.DictWriter(o, fieldnames=meeting_headers)
         for d in meetings:
             writer.writerow(d)
