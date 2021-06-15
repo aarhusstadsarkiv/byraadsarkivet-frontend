@@ -10,7 +10,7 @@ homepage = "https://www.aarhusstadsarkiv.dk/"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-datasette = "^0.56"
+datasette = "^0.57"
 requests = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
