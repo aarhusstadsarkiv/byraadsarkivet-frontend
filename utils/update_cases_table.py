@@ -87,19 +87,54 @@ def remove_empty_subvalues(case: Dict) -> Dict:
 
 
 def main():
-    cases_to_update = ["52210", "59260"]
-    cases = load_table(Path("../data/cases_table_20210427.csv"), "cases")
+    cases = load_table(Path("../data/cases_20210615_v2.csv"), "cases")
 
-    new_table = Path("../data/cases_table_20210427_v2.csv")
-    with open(new_table, "w", encoding="utf-8", newline="") as o:
+    for case in cases:
+        # if case.get("files"):
+        #     new_files = []
+        #     for f in case.get("files"):
+        #         new_file = {}
+        #         for k, v in f.items():
+        #             if v == "null" or v is None:
+        #                 f.pop(k, None)
+        #                 print(f"popped {k} from files in {case['id']}")
+        #             else:
+        #                 new_file[k] = v
+        #         new_files.append(new_file)
+        #     case["files"] = json.dumps(new_files, ensure_ascii=False)
+
+        if case.get("decisions"):
+            new_decisions = []
+            for f in case.get("decisions"):
+                new_decision = {}
+                for k, v in f.items():
+                    if v == "null" or v is None:
+                        print(f"popped {k} from decision in {case['id']}")
+                        continue
+                    if type(v) == "str":
+                        v = str(v).strip()
+                    new_decision[k] = v
+                new_decisions.append(new_decision)
+            case["decisions"] = json.dumps(new_decisions, ensure_ascii=False)
+
+        # if case.get("metadata"):
+        #     new_metadata = {}
+        #     for k, v in case["metadata"].items():
+        #         if v == "null" or v is None:
+        #             f.pop(k, None)
+        #             print(f"popped {k} from metadata in {case['id']}")
+        #         else:
+        #             new_metadata[k] = v
+        #     case["metadata"] = json.dumps(new_metadata, ensure_ascii=False)
+
+    with open(
+        Path("../data/cases_20210615_v3.csv"),
+        "w",
+        encoding="utf-8",
+        newline="",
+    ) as o:
         writer = csv.DictWriter(o, fieldnames=case_headers)
         for case in cases:
-            if case["id"] in cases_to_update:
-                json_strings = updated_json_values(case["id"])
-                case["decisions"] = json_strings.get("decisions")
-                case["files"] = json_strings.get("files")
-                case["metadata"] = json_strings.get("metadata")
-            # new_case: Dict = remove_empty_subvalues(case)
             writer.writerow(case)
 
 

@@ -55,53 +55,59 @@
                     </div>
                     <div class="expanded" data-case-id="{{ item.id }}">
                         <div class="expanded-inner margin-top_m padding-bottom_m">
-                        {% if item.type == "indstilling" %}
-                            <a class="case-link-share" tabindex="0"><span class="case-link-trigger">Del denne sag</span></a>
-                            <div class="case-link">
-                                <div class="case-link-inner">
-                                    <div class="copy-text"><a class="case-anchor" href="/db/cases/{{item.id}}">https://byraadsarkivet.aarhus.dk/db/cases/{{item.id}}</a></div>
-                                    <button type="button" class="copy-btn btn btn-primary">Kopiér link</button>
+                            {% if item.type == "indstilling" %}
+                                <a class="case-link-share" tabindex="0"><span class="case-link-trigger">Del denne sag</span></a>
+                                <div class="case-link">
+                                    <div class="case-link-inner">
+                                        <div class="copy-text"><a class="case-anchor" href="/db/cases/{{item.id}}">https://byraadsarkivet.aarhus.dk/db/cases/{{item.id}}</a></div>
+                                        <button type="button" class="copy-btn btn btn-primary">Kopiér link</button>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endif %}
-                        </div>
-
-                        {#
-                        {% if item.audio %}
-                            <div class="expanded-audio">
-                                <h3 class="case-files padding-top_l">Lyt til debatten</h3>
-                                {% for f in item.audio %}
-                                    <div class="meeting-audiofile">
-                                        <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
+                            {% endif %}
+                            {% if item.audio %}
+                                {% for audio in item.audio %}
+                                    <div class="meeting-audiowrapper">
+                                        <audio controls="" class="meeting-audiofile">
+                                            <source src="{{ audio['href'] }}" type="audio/mpeg">
+                                        </audio>
+                                        {% if "Sag" in audio.filename %}
+                                            <span class="meeting-audiotitle">Lydoptagelse fra dagsordenpunktet</span>
+                                        {% else %}
+                                            <span class="meeting-audiotitle">{{ audio.filename }}</span>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
-                            </div>
-                        {% endif %}
-                        #}
-
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}
             </div>
         </div>
-        {% if vars.meeting.files and ".pdf" in vars.meeting.files %}
-            <h2 class="padding-left_m padding-top_m">
-                <span>Mødebilag</span>
-            </h2>
+        {% if vars.meeting.files %}
 
-            {#
             <h2 class="padding-left_m padding-top_m">
-                <span>
-                    {% if ".pdf" in vars.meeting.files %}Møde{% else %}Mødebilag{% endif %}
-                </span>
+                {% if ".mp3" in vars.meeting.files %}
+                    <span>Lydoptagelser</span>
+                {% else %}
+                    <span>Mødebilag</span>
+                {% endif %}
             </h2>
-            #}
 
             <div class="list">
                 {% for f in vars.meeting.files|loadjson %}
-                    <div class="meeting-file">
-                        <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
-                    </div>
+                    {% if ".mp3" in vars.meeting.files %}
+                        <div class="meeting-audiowrapper">
+                            <audio controls class="meeting-audiofile">
+                                <source src="{{ f.href }}" type="audio/mpeg">
+                            </audio>
+                            <span class="meeting-audiotitle">{{ f.filename|capitalize }}</span>
+                        </div>
+                    {% else %}
+                        <div class="">
+                            <a href="{{ f.href }}">{{ f.filename|capitalize }}</a>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
