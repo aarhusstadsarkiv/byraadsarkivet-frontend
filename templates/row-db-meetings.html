@@ -46,10 +46,12 @@
                                 <h2 class="case-title link{% if not item.public %} color_gray{% endif %}">{{item.title}}</h2>
                             </div> 
                             {% if item.audio %}
-                                <i class="audio-icon fas fa-volume-up"></i>
-                            {% endif %}
+                                <div class="audio-icon">
+                                    <i class="fas fa-volume-up" title="Indeholder lydoptagelse af dagsordenpunktet"></i>
+                                </div>
+                                {% endif %}
                             <div class="search-result-more">
-                                <i class="fa fa-plus ml-4"></i>
+                                <i class="fa fa-plus ml-4" title="Klik for at læse indholdet af dagsordenpunktet"></i>
                             </div>
                         </div>
                     </div>
@@ -67,7 +69,7 @@
                             {% if item.audio %}
                                 {% for audio in item.audio %}
                                     <div class="meeting-audiowrapper">
-                                        <audio controls="" class="meeting-audiofile">
+                                        <audio controls="" preload="metadata" class="meeting-audiofile">
                                             <source src="{{ audio['href'] }}" type="audio/mpeg">
                                         </audio>
                                         {% if "Sag" in audio.filename %}
@@ -98,7 +100,7 @@
                 {% for f in vars.meeting.files|loadjson %}
                     {% if ".mp3" in vars.meeting.files %}
                         <div class="meeting-audiowrapper">
-                            <audio controls class="meeting-audiofile">
+                            <audio controls preload="metadata" class="meeting-audiofile">
                                 <source src="{{ f.href }}" type="audio/mpeg">
                             </audio>
                             <span class="meeting-audiotitle">{{ f.filename|capitalize }}</span>

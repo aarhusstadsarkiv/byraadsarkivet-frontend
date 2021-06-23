@@ -69,8 +69,11 @@ body {
 }
 
 .audio-icon {
+    display: flex;
+    flex: 0 1 40px;
     margin-right: -1em;
-    align-self: center;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ie9+ */
