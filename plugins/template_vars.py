@@ -7,8 +7,8 @@ def extra_template_vars(request) -> Dict[str, Any]:
     # Custom template variables
     vars: Dict[str, Any] = {}
 
-    # the latest year of the db. Currently 2020
-    vars["to_year"] = 2020
+    # the latest year of the db. Currently 2021
+    vars["to_year"] = 2021
     vars["from_year"] = 1997
 
     # human dates
@@ -91,41 +91,41 @@ def extra_template_vars(request) -> Dict[str, Any]:
         },
     }
     vars["current_fora"] = {
-        "13": {"from": "1997", "to": "2020", "label": "Aarhus Byråd (1997-)"},
-        "20": {"from": "1997", "to": "2020", "label": "Magistraten (1997-)"},
+        "13": {"from": "1997", "to": "2021", "label": "Aarhus Byråd (1997-)"},
+        "20": {"from": "1997", "to": "2021", "label": "Magistraten (1997-)"},
         "14": {
             "from": "2006",
-            "to": "2020",
+            "to": "2021",
             "label": "Børn og Unge-udvalget (2006-)",
         },
         "19": {
             "from": "2006",
-            "to": "2020",
+            "to": "2021",
             "label": "Kulturudvalget (2006-)",
         },
         "23": {
             "from": "2018",
-            "to": "2020",
+            "to": "2021",
             "label": "Social- og Beskæftigelsesudvalget (2018-)",
         },
         "27": {
             "from": "1998",
-            "to": "2020",
+            "to": "2021",
             "label": "Sundheds- og Omsorgsudvalget (1998-)",
         },
         "28": {
             "from": "2006",
-            "to": "2020",
+            "to": "2021",
             "label": "Teknisk Udvalg (2006-)",
         },
         "49": {
             "from": "2006",
-            "to": "2020",
+            "to": "2021",
             "label": "Økonomiudvalget (2006-)",
         },
         "16": {
             "from": "2008",
-            "to": "2020",
+            "to": "2021",
             "label": "Fælles udvalgsmøde (2008-)",
         },
     }

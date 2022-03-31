@@ -29,6 +29,7 @@ Use locust to performance test the online frontend from /tests:
 ## Columns
 1. Cases
 id,db_id,type,title,public,date,last_deliberation_date,year,subtitle,resume,suggestion,presentation,notes,fora,decisions,files,metadata
+
 2. Meetings
 id,fora_id,fora_name,year,date,title,public,agenda,metadata,files
 
