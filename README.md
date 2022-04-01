@@ -33,11 +33,6 @@ id,db_id,type,title,public,date,last_deliberation_date,year,subtitle,resume,sugg
 2. Meetings
 id,fora_id,fora_name,year,date,title,public,agenda,metadata,files
 
-## Batch update (with FirstAgenda data)
-1. `$ python import_new_cases_to_db.py`
-2. `$ python import_new_meetings_to_db.py`
-3. Run workflow to generate new .db from the new csv-files
-
 ## Generate new .db-file from updated csv-files
 - `$ sqlite3`
 - `$ sqlite> .open db.db`

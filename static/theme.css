@@ -32,6 +32,7 @@ body {
 .case-presentation,
 .case-notes,
 .case-decision-conclusion,
+.case-decision-current,
 .case-decision-title,
 .case-decision-text,
 /* .expanded div, */
@@ -372,7 +373,10 @@ nav {
 .permalinks {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 1.8em;
+    /* column-gap: 1.8em; */
+}
+.permalinks a {
+    margin-right: 1.5em;
 }
 
 /* AUDIOFILES */

@@ -72,11 +72,16 @@
                                         <audio controls="" preload="metadata" class="meeting-audiofile">
                                             <source src="{{ audio['href'] }}" type="audio/mpeg">
                                         </audio>
+                                        <span class="meeting-audiotitle">Lydoptagelse fra dagsordenpunktet</span>
+
+                                        {#
                                         {% if "Sag" in audio.filename %}
                                             <span class="meeting-audiotitle">Lydoptagelse fra dagsordenpunktet</span>
                                         {% else %}
                                             <span class="meeting-audiotitle">{{ audio.filename }}</span>
                                         {% endif %}
+                                        #}
+
                                     </div>
                                 {% endfor %}
                             {% endif %}
