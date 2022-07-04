@@ -11,7 +11,6 @@ Allow: /$
 Allow: /politics
 Allow: /about
 Allow: /fora
-Allow: /cookies
 """
 
 

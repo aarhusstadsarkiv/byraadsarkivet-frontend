@@ -16,11 +16,17 @@ def asgi_wrapper(datasette):
                 new_headers = [
                     [key, value]
                     for key, value in original_headers
-                    if key.lower() != b"cache-control"
+                    if key.lower() not in [b"cache-control"]
                 ]
                 new_headers.append(
                     [b"cache-control", b"max-age=86400"]
                 )  # Later use 604800 one week
+                # new_headers.append(
+                #     [
+                #         b"content-security-policy",
+                #         b"default-src 'self' https://plausible.io"
+                #     ]
+                # )
                 await send({**event, **{"headers": new_headers}})
 
             await app(scope, recieve, wrapped_send)

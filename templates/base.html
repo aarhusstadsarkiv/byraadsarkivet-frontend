@@ -6,15 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="Aarhus Byråd, Aarhus Stadsarkiv, Aarhus Kommune">
 	<meta name="description" content="{% block description %}{% endblock %}">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' plausible.io; connect-src 'self' plausible.io">
 	<link rel="shortcut icon" type="image/x-icon" href="/static/aar.ico">
 	<link rel="stylesheet" type="text/css" href="/static/main.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/theme.css">
-	{# <link rel="stylesheet" type="text/css" href="/static/cookieconsent.css" /> #}
 	<script defer data-domain="byraadsarkivet.aarhus.dk" src="https://plausible.io/js/plausible.js"></script>
-	{# UDKOMMENTERET
-	<script src="/static/cookieconsent.min.js"></script>
-	<script src="/static/cookiecontrol.js"></script>
-	#}
 	{% block extra_head %}{% endblock extra_head %}
 	<meta name="google-site-verification" content="EssfXUTJSp5lLGdqw3RI9KJbDNLmyFn147Lbon-yyEs" />
 	<meta name="msvalidate.01" content="67549D31907D63FD6F52C4916844E8A2" />

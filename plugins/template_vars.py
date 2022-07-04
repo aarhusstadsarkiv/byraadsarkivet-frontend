@@ -90,6 +90,7 @@ def extra_template_vars(request) -> Dict[str, Any]:
             "label": "Udvalget for Sociale Anliggender (1997)",
         },
     }
+
     vars["current_fora"] = {
         "13": {"from": "1997", "to": "2021", "label": "Aarhus Byråd (1997-)"},
         "20": {"from": "1997", "to": "2021", "label": "Magistraten (1997-)"},
