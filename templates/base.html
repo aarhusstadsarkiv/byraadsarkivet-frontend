@@ -10,8 +10,11 @@
 	<link rel="stylesheet" type="text/css" href="/static/main.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/theme.css">
 	<link rel="stylesheet" type="text/css" href="/static/cookieconsent.css" />
+	<script defer data-domain="byraadsarkivet.aarhus.dk" src="https://plausible.io/js/plausible.js"></script>
+	{# UDKOMMENTERET
 	<script src="/static/cookieconsent.min.js"></script>
 	<script src="/static/cookiecontrol.js"></script>
+	#}
 	{% block extra_head %}{% endblock extra_head %}
 	<meta name="google-site-verification" content="EssfXUTJSp5lLGdqw3RI9KJbDNLmyFn147Lbon-yyEs" />
 	<meta name="msvalidate.01" content="67549D31907D63FD6F52C4916844E8A2" />
@@ -98,52 +101,15 @@
 			<div class="row no-gutters">
 				<div class="col-md-12 permalinks">
 					<a href="https://www.was.digst.dk/byraadsarkivet-aarhus-dk" title="Tilgængelighedserklæring for sitet">Webtilgængelighedserklæring</a>
+					{# UDKOMMENTERET
 					<a id="revokebutton" href="#" title="Klik for at ændre dit samtykke til cookies">Valg af cookies</a>
 					<a href="/cookies" title="Læs om Byrådsarkivets cookiepolitik">Cookiepolitik</a>
+					#}
 				</div>
 			</div>
 		</div>
 	</footer>
 
-	{# UDKOMMENTERET
-  	<!-- Modal -->
-	<div class="modal fade" id="ie-alert" tabindex="-1" role="dialog" aria-labelledby="ie-alert" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-				<h2 class="modal-title" id="exampleModalLabel">Du bruger en browser, som desværre ikke understøttes</h2>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				</div>
-				<div class="modal-body">
-					<p>Microsoft anbefaler, at man af funktionalitets- og sikkerhedshensyn ikke længere benytter Internet Explorer. Denne side understøtter heller ikke fuldt ud denne browser.</p>
-					<p>Åbn gerne hjemmesiden i en anden browser (Microsoft Edge, Google Chrome, Firefox eller lignende). Hvis du ikke har andre browsere installeret, kan de downloades og installeres her:</p>
-					<ul>
-						<li><a href="https://www.microsoft.com/en-us/edge">Hent Microsoft Edge</a></li>
-						<li><a href="https://www.mozilla.org/en-US/firefox/new/">Hent Firefox</a></li>
-						<li><a href="https://www.google.com/chrome/">Hent Google Chrome</a></li>
-					</ul>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
-		if ( window.navigator.userAgent.match(/(MSIE|Trident)/) ) {
-			console.log("Using IE");
-			if (!document.cookie.split(';').some(function(item) {
-				return item.indexOf('ie-detected=1') >= 0;
-			})) {
-				console.log("Cookie not found. Setting cookie.");
-				document.cookie = "ie-detected=1; path=/; samesite=strict; max-age=604800";
-				document.getElementById('#ie-alert').style.display = 'block';
-			}
-		}
-	</script>
-	#}
 	<script src="/static/jquery_3.4.1.min.js" defer></script>
 	<script src="/static/bootstrap-4.4.1.min.js" defer></script>
 	<script src="/static/app.js" defer></script>
