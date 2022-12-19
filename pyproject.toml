@@ -13,7 +13,7 @@ python = "^3.9"
 datasette = "^0.61"
 
 [tool.poetry.dev-dependencies]
-black = "^21.4b1"
+black = "^23.1a1"
 flake8 = "^3.9.1"
 mypy = "^0.812"
 
